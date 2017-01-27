@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="./lib/d3.min.js"></script>
+    </head>
+    <style>
+        .bar {
+            display: inline-block;
+            width: 20px;
+            height:75px;
+            background-color: teal;
+            margin-right: 2px;
+        }
+    </style>
+    <body>
+        <h3> SVG BAR </h3>
+        <div id="canvas"></div>
+        <button id="randomBtn">random me</button>
+        <script>
+            var dataset = [ 5, 10, 15, 20, 25  ];
+            var dataset2 = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+                            14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+                            24, 18, 25, 9, 3 ];
+            var SCALE_FACTOR = 5;
+            var adjustHeight = height => `${height * SCALE_FACTOR}px`
+
+            var clearByElementId = function(elementId) {
+                var nodes = document.getElementById('canvas');
+                while(nodes.hasChildNodes()) {
+                    nodes.removeChild(nodes.firstChild);
+                }
+            }
+
+            var renderD3 = function() {
+                clearByElementId('canvas');
+                d3.select('#canvas')
+                    .selectAll('div')
+                    .data(dataset2)
+                    .enter()
+                    .append('div')
+                    .attr('class', 'bar')
+                    .style('height', adjustHeight)
+            };
+
+            var randomizeDataset = function() {
+                dataset2 = []; // reset
+                for (var i = 0; i < 25; i++) {
+                    dataset2.push(Math.random() * 30);
+                }
+                renderD3();
+            }
+
+            var bindRandomClicker = function() {
+                var randomBtn = document.getElementById('randomBtn');
+                randomBtn.onclick = randomizeDataset;
+            }
+
+            window.onload = function() {
+                console.log('rendering d3');
+                renderD3();
+                console.log('binding clicker');
+                bindRandomClicker();
+            }
+
+        </script>
+    </body>
+</html>
