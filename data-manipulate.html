@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="./lib/d3.min.js"></script>
+    </head>
+    <body>
+        <h3> SVG BAR </h3>
+        <div id="canvas"></div>
+        <script>
+            var dataset = [ 5, 10, 15, 20, 25  ];
+
+            var onEnter = function() {
+                d3.select('#canvas')
+                    .selectAll('p')
+                    .data(dataset)
+                    .enter()
+                    .append('p')
+                    .text(function(d) {
+                        return `counting up to ${d}`;
+                    })
+                    .style('color', function(d) {
+                        return d > 10 ? "lightblue" : "gray";
+                    })
+            };
+
+            window.onload = onEnter;
+        </script>
+    </body>
+</html>
