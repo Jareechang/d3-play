@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="./lib/d3.min.js"></script>
+    </head>
+    <style>
+        .svg-canvas {
+            width: 1000px;
+        }
+    </style>
+    <body>
+        <h3> SVG BAR </h3>
+        <script>
+            var w = 1000;
+            var h = 50;
+            var svg = d3.select('body')
+                        .append('svg')
+                        .attr('class', 'svg-canvas')
+                        .attr('widtw', w)
+                        .attr('height', h);
+            
+            var dataset = [5, 10, 15, 20, 25];
+
+            var addXSpacing = (data, index) => ((index * 100) + 55)
+
+            var circles = svg.selectAll('circle')
+                .data(dataset)
+                .enter()
+                .append('circle');
+
+            circles
+                .attr('cx', addXSpacing)
+                .attr('cy', h/2)
+                .attr('r', r => r);
+        </script>
+    </body>
+</html>
