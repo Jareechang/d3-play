@@ -6,8 +6,14 @@
     </head>
     <style>
         .svg-canvas {
+            margin-top: 25px;
             width: 800px;
             height: 150px;
+        }
+        .display-text {
+            font-family: 'Helvetica';
+            font-size: 18px;
+            font-weight: 100;
         }
     </style>
     <body>
@@ -22,8 +28,8 @@
                         .attr('height', h);
             
             const dataset = [5, 10, 15, 20, 25];
-            const addXSpacing = (data, index) => ((index * 100) + 55)
-            const adjustPresetXSpacing = amount =>  (d, i) => addXSpacing(d, i) - amount;
+            const datasetSpaceFactor = 125;
+            const addXSpacing = (data, index) => ((index * datasetSpaceFactor) + 55)
 
             const circles = svg.selectAll('circle')
                 .data(dataset)
@@ -32,19 +38,21 @@
 
             circles
                 .attr('cx', addXSpacing)
-                .attr('cy', h)
+                .attr('cy', h + 20)
                 .attr('r', r => r)
-                .attr('fill', '#caf270')
-                .attr('stroke', '#c0c0c0')
-                .attr('stroke-width', d => 2.5);
+                .attr('fill', '#f4fde0')
+                .attr('stroke', '#000')
+                .attr('stroke-width', d => 0.75);
 
             svg.selectAll('text')
                 .data(dataset)
                 .enter()
                 .append('text')
                 .text(d => d)
-                .attr('x', adjustPresetXSpacing(10))
-                .attr('y', h + 50)
+                .attr('class', 'display-text')
+                .attr('text-anchor', 'middle')
+                .attr('x', addXSpacing)
+                .attr('y', h - 25)
 
         </script>
     </body>
