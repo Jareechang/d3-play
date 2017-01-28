@@ -6,33 +6,46 @@
     </head>
     <style>
         .svg-canvas {
-            width: 1000px;
+            width: 800px;
+            height: 150px;
         }
     </style>
     <body>
-        <h3> SVG BAR </h3>
+        <h3> Visualize in Cirlces</h3>
         <script>
-            var w = 1000;
-            var h = 50;
-            var svg = d3.select('body')
+            const w = 1000;
+            const h = 50;
+            const svg = d3.select('body')
                         .append('svg')
                         .attr('class', 'svg-canvas')
                         .attr('widtw', w)
                         .attr('height', h);
             
-            var dataset = [5, 10, 15, 20, 25];
+            const dataset = [5, 10, 15, 20, 25];
+            const addXSpacing = (data, index) => ((index * 100) + 55)
+            const adjustPresetXSpacing = amount =>  (d, i) => addXSpacing(d, i) - amount;
 
-            var addXSpacing = (data, index) => ((index * 100) + 55)
-
-            var circles = svg.selectAll('circle')
+            const circles = svg.selectAll('circle')
                 .data(dataset)
                 .enter()
                 .append('circle');
 
             circles
                 .attr('cx', addXSpacing)
-                .attr('cy', h/2)
-                .attr('r', r => r);
+                .attr('cy', h)
+                .attr('r', r => r)
+                .attr('fill', '#caf270')
+                .attr('stroke', '#c0c0c0')
+                .attr('stroke-width', d => 2.5);
+
+            svg.selectAll('text')
+                .data(dataset)
+                .enter()
+                .append('text')
+                .text(d => d)
+                .attr('x', adjustPresetXSpacing(10))
+                .attr('y', h + 50)
+
         </script>
     </body>
 </html>
