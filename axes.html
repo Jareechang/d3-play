@@ -3,9 +3,26 @@
 <html>
     <head>
         <script src="./lib/d3.min.js"></script>
-        <script src="https://d3js.org/d3-axis.v1.min.js"></script>
+        <script src="./lib/d3-axis.min.js"></script>
     </head>
     <style>
+        h3 {
+            margin: 0;
+        }
+        .axis text {
+            font-family: 'Helvetica';
+            font-size: 15px;
+            font-weight: 300;
+        }
+        .axis path {
+            stroke: none;
+        }
+        .axis line {
+            fill: none;
+            stroke: lightgrey;
+            shape-rendering: crispEdges;
+                z-index: -2;
+        }
     </style>
     <body>
         <h3> Axes </h3>
@@ -13,7 +30,7 @@
         <script>
             const w = 500;
             const h = 200;
-            const defaultTransformConstant = "translate(0, 15)";
+            const defaultTransformConstant = "translate(0, 40)";
             var dataset = [
                 [5, 20],
                 [480, 90],
@@ -38,8 +55,18 @@
                             .domain([0, d3.max(dataset, d => d[0])])
                             .range([padding, w - padding * 2])
             
-            const radius = 5;
-            const pointColor = '#000';
+            const radius = 4;
+            const pointColor = '#71bb63';
+
+            const xAxis = d3.axisTop(xScale)
+                            .ticks(5)
+                            .tickSize(160)
+                            .tickPadding(15);
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', defaultTransformConstant.replace(40, 200))
+                .call(xAxis);
 
             svg.selectAll('circle')
                 .data(dataset)
@@ -52,21 +79,7 @@
                 .attr('fill', pointColor)
 
             /* Scales */
-            const xAxis = d3.axisTop(xScale);
 
-            svg.append('g')
-                .attr("transform", defaultTransformConstant)
-                .call(xAxis);
-
-            svg.selectAll('text')
-                .data(dataset)
-                .enter()
-                .append('text')
-                .text(d => d)
-                .attr('x', d => d[0])
-                .attr('y', d => d[1])
-                .attr('font-size', '11px')
-                .attr('color', '#000');
         </script>
     </body>
 </html>
