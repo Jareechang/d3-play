@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="./lib/d3.min.js"></script>
+        <script src="https://d3js.org/d3-axis.v1.min.js"></script>
+    </head>
+    <style>
+    </style>
+    <body>
+        <h3> Axes </h3>
+        <div id="canvas"></div>
+        <script>
+            const w = 500;
+            const h = 200;
+            const defaultTransformConstant = "translate(0, 15)";
+            var dataset = [
+                [5, 20],
+                [480, 90],
+                [250, 50],
+                [100, 33],
+                [330, 95],
+                [410, 12],
+                [475, 44],
+                [25, 67],
+                [85, 21],
+                [220, 88],
+                [600, 150]
+            ];
+            const padding = 20;
+
+            let svg = d3.selectAll('#canvas')
+                            .append('svg')
+                            .attr('width', w)
+                            .attr('height', h);
+
+            const xScale = d3.scaleLinear()
+                            .domain([0, d3.max(dataset, d => d[0])])
+                            .range([padding, w - padding * 2])
+            
+            const radius = 5;
+            const pointColor = '#000';
+
+            svg.selectAll('circle')
+                .data(dataset)
+                .enter()
+                .append('circle')
+                .attr('cx', d => xScale(d[0]))
+                .attr('cy', d => xScale(d[1]))
+                .attr('r', radius)
+                .attr("transform", defaultTransformConstant)
+                .attr('fill', pointColor)
+
+            /* Scales */
+            const xAxis = d3.axisTop(xScale);
+
+            svg.append('g')
+                .attr("transform", defaultTransformConstant)
+                .call(xAxis);
+
+            svg.selectAll('text')
+                .data(dataset)
+                .enter()
+                .append('text')
+                .text(d => d)
+                .attr('x', d => d[0])
+                .attr('y', d => d[1])
+                .attr('font-size', '11px')
+                .attr('color', '#000');
+        </script>
+    </body>
+</html>
