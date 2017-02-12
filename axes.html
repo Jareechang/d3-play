@@ -21,7 +21,6 @@
             fill: none;
             stroke: lightgrey;
             shape-rendering: crispEdges;
-                z-index: -2;
         }
     </style>
     <body>
@@ -58,6 +57,7 @@
             const radius = 4;
             const pointColor = '#71bb63';
 
+            /* Axis */
             const xAxis = d3.axisTop(xScale)
                             .ticks(5)
                             .tickSize(160)
@@ -67,7 +67,8 @@
                 .attr('class', 'axis')
                 .attr('transform', defaultTransformConstant.replace(40, 200))
                 .call(xAxis);
-
+            
+            /* Data points */
             svg.selectAll('circle')
                 .data(dataset)
                 .enter()
@@ -78,7 +79,6 @@
                 .attr("transform", defaultTransformConstant)
                 .attr('fill', pointColor)
 
-            /* Scales */
 
         </script>
     </body>
