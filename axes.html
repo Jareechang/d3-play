@@ -27,8 +27,8 @@
         <h3> Axes </h3>
         <div id="canvas"></div>
         <script>
-            const w = 500;
-            const h = 200;
+            const w = 510;
+            const h = 250;
             const defaultTransformConstant = "translate(0, 40)";
             const padding = 20;
             const dataset = [
@@ -49,9 +49,15 @@
                             .attr('width', w)
                             .attr('height', h);
 
+            let yMin = d3.min(dataset, d => d[1]);
+
             const xScale = d3.scaleLinear()
                             .domain([0, d3.max(dataset, d => d[0])])
                             .range([padding, w - padding * 2]);
+
+            const yScale = d3.scaleLinear()
+                            .domain([0, d3.max(dataset, d => d[1])])
+                            .range([0, h])
             
             const radius = 4;
             const pointColor = '#71bb63';
@@ -59,13 +65,23 @@
             /* Axis */
             const xAxis = d3.axisTop(xScale)
                             .ticks(5)
-                            .tickSize(160)
+                            .tickSize(200)
                             .tickPadding(15);
+
+            const yAxis = d3.axisLeft(yScale)
+                            .ticks(5)
+                            .tickSize(450)
+                            .tickPadding(10);
 
             svg.append('g')
                 .attr('class', 'axis')
-                .attr('transform', defaultTransformConstant.replace(40, 200))
+                .attr('transform', "translate(15, 240)")
                 .call(xAxis);
+
+            svg.append('g')
+                .attr('class', 'axis')
+                .attr('transform', "translate(485, 40)")
+                .call(yAxis);
             
             /* Data points */
             svg.selectAll('circle')
@@ -75,7 +91,7 @@
                 .attr('cx', d => xScale(d[0]))
                 .attr('cy', d => xScale(d[1]))
                 .attr('r', radius)
-                .attr("transform", defaultTransformConstant)
+                .attr("transform", "translate(15, 40)")
                 .attr('fill', pointColor);
 
         </script>
