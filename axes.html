@@ -27,8 +27,8 @@
         <h3> Axes </h3>
         <div id="canvas"></div>
         <script>
-            const w = 950;
-            const h = 550;
+            const w = 750;
+            const h = 250;
             const defaultTransformConstant = "translate(0, 40)";
             const padding = 60;
             const dataset = [
@@ -45,6 +45,10 @@
                 [600, 150]
             ];
 
+            function getRangeX(width, xMax) {
+                return width;
+            }
+
             let svg = d3.selectAll('#canvas')
                             .append('svg')
                             .attr('width', w)
@@ -58,11 +62,11 @@
 
             const xScale = d3.scaleLinear()
                             .domain([0, xMax])
-                            .range([padding, xMax + 100]);
+                            .range([padding, getRangeX(w, xMax) - 15]);
 
             const yScale = d3.scaleLinear()
-                            .domain([0, yMax + 50])
-                            .range([0, yMax + 100])
+                            .domain([0, h])
+                            .range([0, h]);
             
             const radius = 4;
             const pointColor = '#71bb63';
@@ -76,8 +80,8 @@
                             .tickPadding(25);
 
             const yAxis = d3.axisLeft(yScale)
-                            .ticks(5)
-                            .tickSize(xAxisLength - padding)
+                            .ticks(10)
+                            .tickSize(w)
                             .tickPadding(25);
 
             // X Axis
@@ -90,7 +94,7 @@
             // Y Axis
             svg.append('g')
                 .attr('class', 'axis')
-                .attr('transform', `translate(${xAxisLength}, ${padding})`)
+                .attr('transform', `translate(${w + padding}, ${padding})`)
                         //"translate(485, 40)")
                 .call(yAxis);
             
