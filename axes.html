@@ -27,10 +27,10 @@
         <h3> Axes </h3>
         <div id="canvas"></div>
         <script>
-            const w = 510;
-            const h = 250;
+            const w = 950;
+            const h = 550;
             const defaultTransformConstant = "translate(0, 40)";
-            const padding = 20;
+            const padding = 60;
             const dataset = [
                 [5, 20],
                 [480, 90],
@@ -44,43 +44,54 @@
                 [220, 88],
                 [600, 150]
             ];
+
             let svg = d3.selectAll('#canvas')
                             .append('svg')
                             .attr('width', w)
                             .attr('height', h);
 
             let yMin = d3.min(dataset, d => d[1]);
+            let yMax = d3.max(dataset, d => d[1]);
+
+            let xMin = d3.min(dataset, d => d[0]);
+            let xMax = d3.max(dataset, d => d[0]);
 
             const xScale = d3.scaleLinear()
-                            .domain([0, d3.max(dataset, d => d[0])])
-                            .range([padding, w - padding * 2]);
+                            .domain([0, xMax])
+                            .range([padding, xMax + 100]);
 
             const yScale = d3.scaleLinear()
-                            .domain([0, d3.max(dataset, d => d[1])])
-                            .range([0, h])
+                            .domain([0, yMax + 50])
+                            .range([0, yMax + 100])
             
             const radius = 4;
             const pointColor = '#71bb63';
+            const yAxisLength = yMax + 100;
+            const xAxisLength = xMax + 100;
 
             /* Axis */
             const xAxis = d3.axisTop(xScale)
-                            .ticks(5)
-                            .tickSize(200)
-                            .tickPadding(15);
+                            .ticks(10)
+                            .tickSize(yAxisLength)
+                            .tickPadding(25);
 
             const yAxis = d3.axisLeft(yScale)
                             .ticks(5)
-                            .tickSize(450)
-                            .tickPadding(10);
+                            .tickSize(xAxisLength - padding)
+                            .tickPadding(25);
 
+            // X Axis
             svg.append('g')
                 .attr('class', 'axis')
-                .attr('transform', "translate(15, 240)")
+                .attr('transform', `translate(${0}, ${yAxisLength + padding})` )
+                        //"translate(15, 240)")
                 .call(xAxis);
 
+            // Y Axis
             svg.append('g')
                 .attr('class', 'axis')
-                .attr('transform', "translate(485, 40)")
+                .attr('transform', `translate(${xAxisLength}, ${padding})`)
+                        //"translate(485, 40)")
                 .call(yAxis);
             
             /* Data points */
@@ -89,9 +100,10 @@
                 .enter()
                 .append('circle')
                 .attr('cx', d => xScale(d[0]))
-                .attr('cy', d => xScale(d[1]))
+                .attr('cy', d => yScale(d[1]))
                 .attr('r', radius)
-                .attr("transform", "translate(15, 40)")
+                .attr("transform", `translate(${0}, ${padding})`)
+                        //"translate(15, 40)")
                 .attr('fill', pointColor);
 
         </script>
